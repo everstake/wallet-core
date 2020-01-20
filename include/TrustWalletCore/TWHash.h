@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -32,6 +32,9 @@ TW_EXPORT_STATIC_METHOD
 TWData *_Nonnull TWHashSHA512(TWData *_Nonnull data);
 
 TW_EXPORT_STATIC_METHOD
+TWData *_Nonnull TWHashSHA512_256(TWData *_Nonnull data);
+
+TW_EXPORT_STATIC_METHOD
 TWData *_Nonnull TWHashKeccak256(TWData *_Nonnull data);
 
 TW_EXPORT_STATIC_METHOD
@@ -54,5 +57,11 @@ TWData *_Nonnull TWHashSHA256RIPEMD(TWData *_Nonnull data);
 
 TW_EXPORT_STATIC_METHOD
 TWData *_Nonnull TWHashSHA256SHA256(TWData *_Nonnull data);
+
+TW_EXPORT_STATIC_METHOD
+TWData *_Nonnull TWHashXXHash64(TWData *_Nonnull data, uint64_t seed);
+
+TW_EXPORT_STATIC_METHOD
+TWData *_Nonnull TWHashTwoXXHash64Concat(TWData *_Nonnull data);
 
 TW_EXTERN_C_END

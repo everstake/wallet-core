@@ -18,24 +18,24 @@ class TransactionOutput : public ISerializable {
   public:
     uint256_t assetId;
     int64_t value;
-    uint160_t scriptHash;
+    uint256_t scriptHash;
 
     virtual ~TransactionOutput() {}
 
     int64_t size() const override {
-        return store(assetId).size() + 8 + store<uint160_t>(scriptHash).size();
+        return store(assetId).size() + 8 + store(scriptHash).size();
     }
 
     void deserialize(const Data &data, int initial_pos = 0) override {
-        assetId = load<uint256_t>(readBytes(data, 32, initial_pos));
+        assetId = load(readBytes(data, 32, initial_pos));
         value = decode64LE(data.data() + initial_pos + 32);
-        scriptHash = load<uint160_t>(readBytes(data, 20, initial_pos + 32 + 8));
+        scriptHash = load(readBytes(data, 20, initial_pos + 32 + 8));
     }
 
     Data serialize() const override {
         auto resp = store(assetId);
         encode64LE(value, resp);
-        return concat(resp, store<uint160_t>(scriptHash));
+        return concat(resp, store(scriptHash));
     }
 
     bool operator==(const TransactionOutput &other) const {

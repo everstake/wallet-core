@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -13,7 +13,6 @@ using namespace TW;
 using namespace TW::Ripple;
 
 const int NETWORK_PREFIX = 0x53545800;
-const int64_t MAX_ALLOWED_AMOUNT = 100000000000;
 
 Data Transaction::serialize() const {
     auto data = Data();
@@ -28,7 +27,7 @@ Data Transaction::serialize() const {
     encodeType(FieldType::int32, 4, data);
     encode32BE(sequence, data);
     /// "destinationTag"
-    if (destination_tag > 0) {
+    if (encode_tag) {
         encodeType(FieldType::int32, 14, data);
         encode32BE(static_cast<uint32_t>(destination_tag), data);
     }
@@ -58,7 +57,7 @@ Data Transaction::serialize() const {
     encodeBytes(serializeAddress(account), data);
     /// "destination"
     encodeType(FieldType::account, 3, data);
-    encodeBytes(serializeAddress(destination), data);
+    encodeBytes(destination, data);
     return data;
 }
 
@@ -70,7 +69,7 @@ Data Transaction::getPreImage() const {
 }
 
 Data Transaction::serializeAmount(int64_t amount) {
-    if (amount > MAX_ALLOWED_AMOUNT || amount < 0) {
+    if (amount < 0) {
         return Data();
     }
     auto data = Data();

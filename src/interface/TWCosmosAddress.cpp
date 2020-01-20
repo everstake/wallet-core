@@ -1,10 +1,9 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-#include "../Bech32.h"
 #include "../Cosmos/Address.h"
 
 #include <TrezorCrypto/ecdsa.h>
@@ -27,12 +26,12 @@ bool TWCosmosAddressIsValidString(TWString *_Nonnull string) {
 
 struct TWCosmosAddress *_Nullable TWCosmosAddressCreateWithString(TWString *_Nonnull string) {
     auto s = reinterpret_cast<const std::string*>(string);
-    auto dec = Address::decode(*s);
-    if (!dec.second) {
+    Address address;
+    if (!Address::decode(*s, address)) {
         return nullptr;
     }
 
-    return new TWCosmosAddress{ std::move(dec.first) };
+    return new TWCosmosAddress{ address };
 }
 
 struct TWCosmosAddress *_Nullable TWCosmosAddressCreateWithKeyHash(enum TWHRP hrp, TWData *_Nonnull keyHash) {
@@ -54,9 +53,9 @@ TWString *_Nonnull TWCosmosAddressDescription(struct TWCosmosAddress *_Nonnull a
 }
 
 enum TWHRP TWCosmosAddressHRP(struct TWCosmosAddress *_Nonnull address) {
-    return hrpForString(address->impl.hrp.c_str());
+    return hrpForString(address->impl.getHrp().c_str());
 }
 
 TWData *_Nonnull TWCosmosAddressKeyHash(struct TWCosmosAddress *_Nonnull address) {
-    return TWDataCreateWithBytes(address->impl.keyHash.data(), address->impl.keyHash.size());
+    return TWDataCreateWithBytes(address->impl.getKeyHash().data(), address->impl.getKeyHash().size());
 }

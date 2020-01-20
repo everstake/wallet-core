@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -30,12 +30,16 @@ Data Signer::getPreImage(const Proto::SigningInput& input) noexcept {
     auto internal = ZilliqaMessage::ProtoTransactionCoreInfo();
 
     const auto key = PrivateKey(Data(input.private_key().begin(), input.private_key().end()));
-    const auto address = Cosmos::Address::decode(input.to_address());
+    Address address;
+    if (!Address::decode(input.to_address(), address)) {
+        // invalid input
+        return Data(0);
+    }
     const auto pubKey = key.getPublicKey(TWPublicKeyTypeSECP256k1);
 
     internal.set_version(input.version());
     internal.set_nonce(input.nonce());
-    internal.set_toaddr(address.first.keyHash.data(), address.first.keyHash.size());
+    internal.set_toaddr(address.getKeyHash().data(), address.getKeyHash().size());
 
     auto sender = new ZilliqaMessage::ByteArray();
     sender->set_data(pubKey.bytes.data(), pubKey.bytes.size());

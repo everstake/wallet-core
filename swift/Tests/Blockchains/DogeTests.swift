@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -31,7 +31,7 @@ class DogeTests: XCTestCase {
 
         // .bip44
         let dgpv = wallet.getExtendedPrivateKey(purpose: .bip44, coin: coin, version: .dgpv)
-        let dgub = wallet.getExtendedPubKey(purpose: .bip44, coin: coin, version: .dgub)
+        let dgub = wallet.getExtendedPublicKey(purpose: .bip44, coin: coin, version: .dgub)
 
         XCTAssertEqual(dgpv, "dgpv57ru95KiYUB5oWm2CVQH4heh1f7E9dNGdRHHVThcQkLeQ2HHxVJfFYefnpKrWZ6L6EDKJHUVq4Yyd5kPZKnRePfkCz3EzkySTydXKbgjcxN")
         XCTAssertEqual(dgub, "dgub8rjvUmFc6cqR6NRBEj2FBZCHUDUrykPyv24Vea6bCsPex5PzNFrRtr4KN37XgwuVzzC2MikJRW2Ddcp99Ehsqp2iaU4eerNCJVruKxz6Gci")

@@ -38,7 +38,13 @@ class Address : public TW::Base58Address<AddressSize> {
     explicit Address(const PublicKey &publicKey);
 
     Data toScriptHash(const Data &data) const;
+
+    Data toScriptHash() const;
 };
+
+inline bool operator==(const Address& lhs, const Address& rhs) {
+    return lhs.string() == rhs.string();
+}
 
 } // namespace TW::NEO
 

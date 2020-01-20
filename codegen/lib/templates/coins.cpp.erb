@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -176,7 +176,20 @@ TWString *_Nullable TWCoinTypeConfigurationGetTransactionURL(enum TWCoinType coi
     switch (coin) {
 <%  coins.each do |coin| -%>
     case TWCoinType<%= format_name(coin['name']) %>:
-        url = "<%= coin['explorer'] %>" + txId;
+        url = "<%= explorer_tx_url(coin) %>" + txId;
+        break;
+<% end -%>
+    }
+    return TWStringCreateWithUTF8Bytes(url.c_str());
+}
+
+TWString *_Nullable TWCoinTypeConfigurationGetAccountURL(enum TWCoinType coin, TWString *_Nonnull accountID) {
+    std::string url;
+    std::string accId = TWStringUTF8Bytes(accountID);
+    switch (coin) {
+<%  coins.each do |coin| -%>
+    case TWCoinType<%= format_name(coin['name']) %>:
+        url = "<%= explorer_account_url(coin) %>" + accId;
         break;
 <% end -%>
     }
@@ -200,7 +213,11 @@ TWString *_Nonnull TWCoinTypeConfigurationGetName(enum TWCoinType coin) {
     switch (coin) {
 <%  coins.each do |coin| -%>
     case TWCoinType<%= format_name(coin['name']) %>:
-        string = "<%= coin['name'] %>";
+<%  if coin['displayName'].nil? -%>
+    string = "<%= coin['name'] %>";
+<%  else -%>
+    string = "<%= coin['displayName'] %>";
+<%  end -%>
         break;
 <% end -%>
     }

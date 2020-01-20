@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -41,9 +41,5 @@ void TWRippleAddressDelete(struct TWRippleAddress *_Nonnull address);
 /// Returns the address string representation.
 TW_EXPORT_PROPERTY
 TWString *_Nonnull TWRippleAddressDescription(struct TWRippleAddress *_Nonnull address);
-
-/// Returns the key hash.
-TW_EXPORT_PROPERTY
-TWData *_Nonnull TWRippleAddressKeyHash(struct TWRippleAddress *_Nonnull address);
 
 TW_EXTERN_C_END

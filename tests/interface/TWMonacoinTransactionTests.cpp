@@ -1,5 +1,5 @@
 
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -61,7 +61,7 @@ TEST(MonacoinTransaction, SignTransaction) {
     plan.fee = fee;
     plan.change = utxo_amount - amount - fee;
 
-    auto signer = TW::Bitcoin::TransactionSigner<TW::Bitcoin::Transaction>(std::move(input), plan);
+    auto signer = Bitcoin::TransactionSigner<Bitcoin::Transaction, TransactionBuilder>(std::move(input), plan);
     auto result = signer.sign();
     auto signedTx = result.payload();
 

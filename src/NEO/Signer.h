@@ -24,8 +24,14 @@ class Signer {
     PublicKey getPublicKey() const;
     Address getAddress() const;
 
-    Data sign(Transaction &tx) const;
+    void sign(Transaction &tx) const;
     Data sign(const Data &data) const;
+
+    /// Signs a Proto::SigningInput transaction
+    //static Proto::SigningOutput sign(const Proto::SigningInput& input) noexcept;
+
+    /// Signs the given transaction.
+    //static Data sign(const PrivateKey& privateKey, Transaction& transaction) noexcept;
 };
 
 } // namespace TW::NEO

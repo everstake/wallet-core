@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -39,7 +39,7 @@ class ZilliqaTests: XCTestCase {
 
         // 1 ZIL
         let input = ZilliqaSigningInput.with {
-            $0.version = TWZilliqaTxVersion
+            $0.version = 65537 // mainnet tx version
             $0.nonce = 2
             $0.toAddress = "zil10lx2eurx5hexaca0lshdr75czr025cevqu83uz"
             $0.amount = Data(hexString: "e8d4a51000")!

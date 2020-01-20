@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -69,6 +69,9 @@ class Script {
 
     /// Builds a pay-to-script-hash (P2SH) script from a script hash.
     static Script buildPayToScriptHash(const Data& scriptHash);
+
+    /// Builds a pay-to-witness-program script, P2WSH or P2WPKH.
+    static Script buildPayToWitnessProgram(const Data& program);
 
     /// Builds a pay-to-witness-public-key-hash (P2WPKH) script from a public
     /// key hash.

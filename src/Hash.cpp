@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -32,6 +32,12 @@ Data Hash::sha256(const byte* begin, const byte* end) {
 Data Hash::sha512(const byte* begin, const byte* end) {
     Data result(sha512Size);
     sha512_Raw(begin, end - begin, result.data());
+    return result;
+}
+
+Data Hash::sha512_256(const byte* begin, const byte* end) {
+    Data result(sha256Size);
+    sha512_256_Raw(begin, end - begin, result.data());
     return result;
 }
 

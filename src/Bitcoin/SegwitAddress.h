@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -13,6 +13,8 @@
 
 namespace TW::Bitcoin {
 
+/// A Segwit address.
+/// Note: Similar to Bech32Address, but it differs enough so that reuse makes no sense.
 class SegwitAddress {
   public:
     /// Human-readable part.

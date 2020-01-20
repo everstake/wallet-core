@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -6,11 +6,13 @@
 
 #include "../NEO/Address.h"
 
-#include <TrustWalletCore/TWNEOAddress.h>
 #include <TrustWalletCore/TWPublicKey.h>
+#include <TrustWalletCore/TWNEOAddress.h>
 
 using namespace TW;
 using namespace TW::NEO;
+
+// TODO: Adjust implementations below
 
 bool TWNEOAddressEqual(struct TWNEOAddress *_Nonnull lhs, struct TWNEOAddress *_Nonnull rhs) {
     return lhs->impl == rhs->impl;
@@ -22,14 +24,13 @@ bool TWNEOAddressIsValidString(TWString *_Nonnull string) {
 }
 
 struct TWNEOAddress *_Nullable TWNEOAddressCreateWithString(TWString *_Nonnull string) {
-    auto s = reinterpret_cast<const std::string*>(string);
-
-    try {
-        const auto address = Address(*s);
-        return new TWNEOAddress{ std::move(address) };
-    } catch (...) {
-        return nullptr;
-    }
+auto s = reinterpret_cast<const std::string*>(string);
+try {
+const auto address = Address(*s);
+return new TWNEOAddress{ std::move(address) };
+} catch (...) {
+return nullptr;
+}
 }
 
 struct TWNEOAddress *_Nonnull TWNEOAddressCreateWithPublicKey(struct TWPublicKey *_Nonnull publicKey) {
@@ -46,5 +47,5 @@ TWString *_Nonnull TWNEOAddressDescription(struct TWNEOAddress *_Nonnull address
 }
 
 TWData *_Nonnull TWNEOAddressKeyHash(struct TWNEOAddress *_Nonnull address) {
-    return TWDataCreateWithBytes(address->impl.bytes.data(), Address::size);
+    return TWDataCreateWithBytes(address->impl.bytes.data(), address->impl.bytes.size());
 }

@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -62,7 +62,10 @@ struct StoredKey {
 
     /// Returns the account for a specific coin if it exists.
     const Account* account(TWCoinType coin) const;
-
+    
+    /// Remove the account for a specific coin
+    void removeAccount(TWCoinType coin);
+    
     /// Returns the private key for a specific coin, creating an account if
     /// necessary.
     ///

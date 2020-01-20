@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -16,12 +16,8 @@ TW_EXTERN_C_BEGIN
 TW_EXPORT_CLASS
 struct TWNULSSigner;
 
-/// Make a transaction plan
-TW_EXPORT_STATIC_METHOD
-TW_NULS_Proto_TransactionPlan TWNULSSignerPlan(TW_NULS_Proto_TransactionPurpose purpose);
-
 /// Signs a transaction.
 TW_EXPORT_STATIC_METHOD
-TW_NULS_Proto_SigningOutput TWNULSSignerSign(TW_NULS_Proto_TransactionPlan plan);
+TW_NULS_Proto_SigningOutput TWNULSSignerSign(TW_NULS_Proto_SigningInput input);
 
 TW_EXTERN_C_END

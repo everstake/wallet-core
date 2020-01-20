@@ -44,3 +44,10 @@ Address::Address(uint8_t m, const std::vector<Data>& publicKeys) {
 Data Address::toScriptHash(const Data& data) const {
     return Hash::ripemd(Hash::sha256(data));
 }
+
+Data Address::toScriptHash() const {
+	 byte buf[20];
+	 Data data(buf, buf + 20);
+	 std::copy(bytes.begin() + 1, bytes.begin() + 21, data.begin());
+    return data;
+}

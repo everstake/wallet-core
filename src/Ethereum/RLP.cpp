@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -38,7 +38,7 @@ Data RLP::encode(const Transaction& transaction) noexcept {
     append(encoded, encode(transaction.nonce));
     append(encoded, encode(transaction.gasPrice));
     append(encoded, encode(transaction.gasLimit));
-    append(encoded, encode(transaction.to.bytes));
+    append(encoded, encode(transaction.to));
     append(encoded, encode(transaction.amount));
     append(encoded, encode(transaction.payload));
     append(encoded, encode(transaction.v));

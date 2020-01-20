@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -35,8 +35,3 @@ class Transaction {
 };
 
 } // namespace TW::Nimiq
-
-/// Wrapper for C interface.
-struct TWNimiqTransaction {
-    TW::Nimiq::Transaction impl;
-};

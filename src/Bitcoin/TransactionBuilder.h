@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -16,7 +16,8 @@
 
 namespace TW::Bitcoin {
 
-struct TransactionBuilder {
+class TransactionBuilder {
+public:
     /// Plans a transaction by selecting UTXOs and calculating fees.
     static TransactionPlan plan(const Bitcoin::Proto::SigningInput& input) {
         auto plan = TransactionPlan();

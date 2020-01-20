@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -47,8 +47,4 @@ void TWRippleAddressDelete(struct TWRippleAddress *_Nonnull address) {
 TWString *_Nonnull TWRippleAddressDescription(struct TWRippleAddress *_Nonnull address) {
     const auto string = address->impl.string();
     return TWStringCreateWithUTF8Bytes(string.c_str());
-}
-
-TWData *_Nonnull TWRippleAddressKeyHash(struct TWRippleAddress *_Nonnull address) {
-    return TWDataCreateWithBytes(address->impl.bytes.data(), Address::size);
 }

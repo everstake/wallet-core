@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -16,14 +16,10 @@ enum TWEthereumChainID {
     TWEthereumChainIDGo = 60,
     TWEthereumChainIDPOA = 99,
     TWEthereumChainIDCallisto = 820,
-    TWEthereumChainIDEllaism = 64,
     TWEthereumChainIDEthereumClassic = 61,
-    TWEthereumChainIDEthersocial = 31102,
     TWEthereumChainIDVeChain = 74,
-    TWEthereumChainIDThunderToken = 18,
+    TWEthereumChainIDThunderToken = 108,
     TWEthereumChainIDTomoChain = 88,
-    TWEthereumChainIDXDai = 100,
-    TWEthereumChainIDDEXON = 237,
 };
 
 TW_EXTERN_C_END

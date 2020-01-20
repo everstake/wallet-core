@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -24,6 +24,7 @@ private:
     const Proto::SigningInput& input;
 
     void parse(const std::string &transaction, google::protobuf::Message *message, Proto::SigningOutput &output) const noexcept;
+    void toJson(const google::protobuf::Message &message, std::string *json_string) const noexcept;
 };
 
 }

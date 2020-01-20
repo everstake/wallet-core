@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -11,8 +11,6 @@
 #include "TWZilliqaProto.h"
 
 TW_EXTERN_C_BEGIN
-
-const uint32_t TWZilliqaTxVersion = 65537;
 
 /// Helper class to sign Zilliqa transactions.
 TW_EXPORT_CLASS

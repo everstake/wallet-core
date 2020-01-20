@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -8,52 +8,58 @@
 #include "PrivateKey.h"
 #include <gtest/gtest.h>
 
-#include "NULS/Address.h"
 #include "NULS/Signer.h"
-#include "NULS/TransactionBuilder.h"
 
 using namespace TW;
 using namespace TW::NULS;
 
-inline auto makeInput(std::string fromHash, int32_t fromIdx, uint64_t amount, uint64_t lock_time,
-                      std::string address) {
-    auto input = Proto::TransactionInput();
-    input.set_from_index(fromIdx);
-    input.set_from_hash(fromHash);
-    input.set_amount(amount);
-    input.set_lock_time(lock_time);
-    input.set_address(address);
+inline auto makeInput(std::string priKey, std::string addressFrom, std::string addressTo,
+                      uint256_t amount, uint32_t chainId, uint32_t assetId, std::string nonce, std::string remark,
+                      uint256_t balance) {
+    Proto::SigningInput input;
+    Data key = parse_hex(priKey); 
+    std::string keyStr;
+    keyStr.insert(keyStr.begin(), key.begin(), key.end());
+    input.set_private_key(keyStr);
+
+    input.set_from(addressFrom);
+    input.set_to(addressTo);
+
+    Data amountData = store(amount);
+    std::string amountStr;
+    amountStr.insert(amountStr.begin(), amountData.begin(), amountData.end());
+    input.set_amount(amountStr);
+
+    input.set_chain_id(chainId);
+    input.set_idassets_id(assetId);
+    input.set_nonce(nonce);
+    input.set_remark(remark);
+
+    Data balanceData = store(balance);
+    std::string balanceStr;
+    balanceStr.insert(balanceStr.begin(), balanceData.begin(), balanceData.end());
+    input.set_balance(balanceStr);
+
+    input.set_timestamp(0x5d8885f8);
     return input;
 }
 
 TEST(NULSSigner, Sign) {
-    Proto::TransactionPurpose purpose;
-    purpose.set_private_key("5e60f0d6b921cca8233a33bc604fe201431b5611743acfec0118b58b9e4837bf");
-    purpose.set_amount(10000000L);
-    purpose.set_remark("转账1nuls");
-    purpose.set_from_address("Nse83VkkjfDZd55ZMsh8RL5SG5zM3jMn");
-    purpose.set_to_address("Nse8piWsnAqxkzdcJqDc9qg5kdWayVmz");
-    purpose.set_timestamp(1552821707155L);
-    purpose.set_use_max_amount(false);
-
-    auto inputs = std::vector<Proto::TransactionInput>();
-    inputs.push_back(
-        makeInput("00205a76c6d451e7ebf081ef95f7609fc9cec02e7c1827c5edbcd228cf3a427e3e8d", 0,
-                  50000000L, 0, "Nse83VkkjfDZd55ZMsh8RL5SG5zM3jMn"));
-    *purpose.mutable_utxos() = {inputs.begin(), inputs.end()};
-
-    auto plan = TransactionBuilder::plan(purpose);
-
-    auto signer = NULS::Signer(plan);
-    std::vector<uint8_t> signature = signer.sign();
+    auto input = makeInput("9ce21dad67e0f0af2599b41b515a7f7018059418bab892a7b68f283d489abc4b",
+                           "NULSd6Hgj7ZoVgsPN9ybB4C1N2TbvkgLc8Z9H", "NULSd6Hgied7ym6qMEfVzZanMaa9qeqA6TZSe",
+                           10000000, 1, 1, "0000000000000000", "", 100000000);
+    auto signer = Signer(input);
+    Data signature = signer.sign();
     std::string signedTransaction = hex(signature);
 
     ASSERT_EQ(
-        signedTransaction,
-        "020093e1628b69010be8bdace8b4a6316e756c73ffffffff012300205a76c6d451e7ebf081ef95f7609fc9cec0"
-        "2e7c1827c5edbcd228cf3a427e3e8d0080f0fa02000000000000000000000217042301ef1d19f5a36f37a6cde9"
-        "5ef2b675d9cf94e836e3809698000000000000000000000017042301e26f42d122f6c43a149a49d63b25dfa8be"
-        "2f1caa60d36002000000000000000000006b2103e0761beaecbbeb05a5a514c5b1554ba6c7712fa067ac5e3cbb"
-        "11d0b9f9c8139000473045022100906fb3b1422126a9199a52595ffea392a615d3ad785c12b8c0f814665c408a"
-        "fa022025a2de8ecc4a3478dc80c15f0f38697caa8f2d6fcf9ecd3985210a5c002fb1a8");
+            signedTransaction,
+            "0200f885885d00008c0117010001f7ec6473df12e751d64cf20a8baa7edd50810f8101000100201d9a"
+            "0000000000000000000000000000000000000000000000000000000000080000000000000000000117"
+            "010001f05e7878971f3374515eabb6f16d75219d887312010001008096980000000000000000000000"
+            "0000000000000000000000000000000000000000000000000000692103958b790c331954ed367d37ba"
+            "c901de5c2f06ac8368b37d7bd6cd5ae143c1d7e3463044022028019c0099e2233c7adb84bb03a9a566"
+            "6ece4a5b65a026a090fa460f3679654702204df0fcb8762b5944b3aba033fa1a287ccb098150035dd8"
+            "b66f52dc58d3d0843a"
+            );
 }

@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -46,7 +46,10 @@ class Signer {
     Signer() = default;
 
     /// Initializes a transaction signer with signing input.
-    explicit Signer(Bitcoin::Proto::SigningInput&& input) : input(input) {}
+    explicit Signer(Bitcoin::Proto::SigningInput&& input) 
+      : input(input), plan(TransactionBuilder::plan(input)) {
+        transaction = TransactionBuilder::build(plan, input.to_address(), input.change_address());
+    }
 
     /// Initializes a transaction signer with signing input, a transaction, and
     /// a hash type.

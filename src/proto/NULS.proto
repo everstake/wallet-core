@@ -3,72 +3,63 @@ syntax = "proto3";
 package TW.NULS.Proto;
 option java_package = "wallet.core.jni.proto";
 
-message TransactionInput {
-    string from_hash = 1;
-    int32 from_index = 2;
-    int64 amount = 3;
-    int64 lock_time = 4;
-    string address = 5;
+message TransactionCoinFrom {
+    string from_address = 1;
+    uint32 assets_chainid = 2;
+    uint32 assets_id = 3;
+    //tranaction out amount (256-bit number)
+    bytes id_amount = 4;
+    //8 bytes
+    bytes nonce = 5;
+    //lock status: 1 locked; 0 unlocked
+    uint32 locked = 6;
 }
 
-message TransactionOutput {
+message TransactionCoinTo {
     string to_address = 1;
-    int64 amount = 2;
-    int64 lock_time = 3;
-    int32 index = 4;
+    uint32 assets_chainid = 2;
+    uint32 assets_id = 3;
+    // tranaction amount (256-bit number)
+    bytes id_amount = 4;
+    uint32 lock_time = 5;
+}
+
+message Signature {
+    uint32 pkey_len = 1;
+    bytes public_key = 2;
+    uint32 sig_len = 3;
+    bytes signature = 4;
 }
 
 message Transaction {
-    string from_address = 2;
-    string to_address = 3;
-    int64 amount = 4;
+    uint32  type = 1;
+    uint32  timestamp = 2;
+    string  remark = 3;
+    bytes   tx_data = 4;
+    //CoinFrom
+    TransactionCoinFrom input = 5;
+    //CoinTo
+    TransactionCoinTo output = 6;
 
-    /// UTF-8 encode strings
-    string remark = 5;
-
-    int64 timestamp = 6;
-
-    /// Unspent input list
-    repeated TransactionInput inputs = 7;
-    /// Output list
-    repeated TransactionOutput outputs = 8;
+    Signature tx_sigs = 7;
+    uint32 hash = 8;
 }
 
-message TransactionPurpose {
+// Input data necessary to create a signed order.
+message SigningInput {
     bytes private_key = 1;
-    string from_address = 2;
-    string to_address = 3;
-    int64 amount = 4;
-
-    /// UTF-8 encode strings
-    string remark = 5;
-
-    int64 timestamp = 6;
-
-    /// Unspent input list
-    repeated TransactionInput utxos = 7;
-
-    // If sending max amount.
-    bool use_max_amount = 8;
-}
-
-message TransactionPlan {
-    bytes private_key = 1;
-    string from_address = 2;
-    string to_address = 3;
-    int64 amount = 4;
-
-    /// UTF-8 encode strings
-    string remark = 5;
-
-    int64 timestamp = 6;
-    int64 fee = 7;
-    int64 change = 8;
-    int64 available_amount = 9;
-
-    /// Selected Unspent input list
-    repeated TransactionInput inputs = 10;
-    repeated TransactionOutput outputs = 11;
+    string from = 2;
+    string to = 3;
+    bytes  amount = 4;
+    uint32 chain_id = 5;
+    uint32 idassets_id = 6;
+    //The last 8 bytes of latest transaction hash 
+    bytes nonce = 7;
+    string remark = 8;
+    // Account balance 
+    bytes  balance = 9;
+    // time, accurate to the second
+    uint32 timestamp = 10;
 }
 
 message SigningOutput {

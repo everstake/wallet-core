@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -7,31 +7,18 @@
 #include <TrustWalletCore/TWNULSSigner.h>
 
 #include "../NULS/Signer.h"
-#include "../NULS/TransactionBuilder.h"
 #include "../PrivateKey.h"
 #include "../proto/NULS.pb.h"
 
 using namespace TW;
 using namespace TW::NULS;
 
-TW_NULS_Proto_TransactionPlan TWNULSSignerPlan(TW_NULS_Proto_TransactionPurpose data) {
-    Proto::TransactionPurpose purpose;
-    purpose.ParseFromArray(TWDataBytes(data), static_cast<int>(TWDataSize(data)));
-
-    auto plan = TransactionBuilder::plan(purpose);
-    std::vector<uint8_t> serializeData(plan.ByteSize());
-    plan.SerializeToArray(serializeData.data(), plan.ByteSize());
-
-    return TWDataCreateWithBytes(reinterpret_cast<const uint8_t*>(serializeData.data()),
-                                 serializeData.size());
-}
-
-TW_NULS_Proto_SigningOutput TWNULSSignerSign(TW_NULS_Proto_TransactionPlan data) {
-    Proto::TransactionPlan plan;
-    plan.ParseFromArray(TWDataBytes(data), static_cast<int>(TWDataSize(data)));
+TW_NULS_Proto_SigningOutput TWNULSSignerSign(TW_NULS_Proto_SigningInput data) {
+    Proto::SigningInput input;
+    input.ParseFromArray(TWDataBytes(data), static_cast<int>(TWDataSize(data)));
     auto output = Proto::SigningOutput();
     try {
-        const auto signer = Signer(plan);
+        const auto signer = Signer(input);
         const auto data = signer.sign();
         output.set_encoded(data.data(), data.size());
     }

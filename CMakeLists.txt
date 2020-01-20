@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 if (NOT ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang"))
     message(FATAL_ERROR "You should use clang compiler")
@@ -82,6 +83,8 @@ target_include_directories(TrustWalletCore
 
 if(NOT ANDROID AND NOT IOS_PLATFORM)
     add_subdirectory(tests)
+    add_subdirectory(walletconsole/lib)
+    add_subdirectory(walletconsole)
 endif()
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/swift/cpp.xcconfig.in ${CMAKE_CURRENT_SOURCE_DIR}/swift/cpp.xcconfig @ONLY)

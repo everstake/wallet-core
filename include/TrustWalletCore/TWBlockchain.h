@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -29,17 +29,21 @@ enum TWBlockchain {
     TWBlockchainOntology = 14,
     TWBlockchainZilliqa = 15,
     TWBlockchainIoTeX = 16,
-    TWBlockchainArk = 17,
-    TWBlockchainEOS = 18,
-    TWBlockchainIOST = 19,
-    TWBlockchainSemux = 20,
-    TWBlockchainNano = 21,
-    TWBlockchainNEO = 22,
-    TWBlockchainSteem = 23,
-    TWBlockchainNULS = 24,
-    TWBlockchainWaves = 25,
-    TWBlockchainAeternity = 26,
-    TWBlockchainNebulas = 27,
+    TWBlockchainEOS = 17,
+    TWBlockchainNano = 18,
+    TWBlockchainNULS = 19,
+    TWBlockchainWaves = 20,
+    TWBlockchainAeternity = 21,
+    TWBlockchainNebulas = 22,
+    TWBlockchainFIO = 23,
+    TWBlockchainSolana = 24,
+    TWBlockchainHarmony = 25,
+    TWBlockchainNEAR = 26,
+    TWBlockchainAlgorand = 27,
+    TWBlockchainTON = 28,
+    TWBlockchainPolkadot = 29,
+    TWBlockchainCardano = 30,
+    TWBlockchainNEO = 31,
 };
 
 TW_EXTERN_C_END

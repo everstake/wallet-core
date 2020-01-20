@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -121,6 +121,10 @@ struct TWAccount *_Nullable TWStoredKeyAccountForCoin(struct TWStoredKey *_Nonnu
     } catch (...) {
         return nullptr;
     }
+}
+
+void TWStoredKeyRemoveAccountForCoin(struct TWStoredKey *_Nonnull key, enum TWCoinType coin) {
+    key->impl.removeAccount(coin);
 }
 
 void TWStoredKeyAddAccount(struct TWStoredKey *_Nonnull key, TWString *_Nonnull address, TWString *_Nonnull derivationPath, TWString *_Nonnull extetndedPublicKey) {

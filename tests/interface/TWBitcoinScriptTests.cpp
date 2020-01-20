@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -68,6 +68,12 @@ TEST(BitcoinScript, LockScriptForP2WPKHAddress) {
     auto scriptPub2 = WRAP(TWBitcoinScript, TWBitcoinScriptBuildForAddress(STRING("bc1qqw0jllft9pcr7r5uw0x08njkft0thd0g5yus0x").get(), TWCoinTypeBitcoin));
     auto scriptPub2Data = WRAPD(TWBitcoinScriptData(scriptPub2.get()));
     assertHexEqual(scriptPub2Data, "0014039f2ffd2b28703f0e9c73ccf3ce564adebbb5e8");
+}
+
+TEST(BitcoinScript, LockScriptForP2WSHAddress) {
+    auto script = WRAP(TWBitcoinScript, TWBitcoinScriptBuildForAddress(STRING("bc1qcuqamesrt803xld4l2j2vxx8rxmrx7aq82mkw7xwxh643wzqjlnqutkcv2").get(), TWCoinTypeBitcoin));
+    auto scriptData = WRAPD(TWBitcoinScriptData(script.get()));
+    assertHexEqual(scriptData, "0020c701dde60359df137db5faa4a618c719b6337ba03ab76778ce35f558b84097e6");
 }
 
 TEST(BitcoinScript, LockScriptForCashAddress) {

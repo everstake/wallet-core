@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -6,16 +6,17 @@
 
 #include "Serialization.h"
 
-#include "../Cosmos/Address.h"
-#include <TrustWalletCore/TWHRP.h>
+#include "Address.h"
+#include "../HexCoding.h"
 
 using namespace TW;
+using namespace TW::Binance;
 
 using json = nlohmann::json;
 
 static inline std::string addressString(const std::string& bytes) {
     auto data = std::vector<uint8_t>(bytes.begin(), bytes.end());
-    auto address = Cosmos::Address(HRP_BINANCE, data);
+    auto address = Address(data);
     return address.string();
 }
 
@@ -57,6 +58,28 @@ json Binance::orderJSON(const Binance::Proto::SigningInput& input) {
         j["from"] = addressString(input.unfreeze_order().from());
         j["symbol"] = input.unfreeze_order().symbol();
         j["amount"] = input.unfreeze_order().amount();
+    } else if (input.has_htlt_order()) {
+        j["from"] = addressString(input.htlt_order().from());
+        j["to"] = addressString(input.htlt_order().to());
+        j["recipient_other_chain"] = input.htlt_order().recipient_other_chain();
+        j["sender_other_chain"] = input.htlt_order().sender_other_chain();
+        j["random_number_hash"] = hex(input.htlt_order().random_number_hash());
+        j["timestamp"] = input.htlt_order().timestamp();
+        j["amount"] = tokensJSON(input.htlt_order().amount());
+        j["expected_income"] = input.htlt_order().expected_income();
+        j["height_span"] = input.htlt_order().height_span();
+        j["cross_chain"] = input.htlt_order().cross_chain();
+    } else if (input.has_deposithtlt_order()) {
+        j["from"] = addressString(input.deposithtlt_order().from());
+        j["swap_id"] = hex(input.deposithtlt_order().swap_id());
+        j["amount"] = tokensJSON(input.deposithtlt_order().amount());
+    } else if (input.has_claimhtlt_order()) {
+        j["from"] = addressString(input.claimhtlt_order().from());
+        j["swap_id"] = hex(input.claimhtlt_order().swap_id());
+        j["random_number"] = hex(input.claimhtlt_order().random_number());
+    } else if (input.has_refundhtlt_order()) {
+        j["from"] = addressString(input.refundhtlt_order().from());
+        j["swap_id"] = hex(input.refundhtlt_order().swap_id());
     }
     return j;
 }

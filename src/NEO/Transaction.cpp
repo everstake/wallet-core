@@ -38,7 +38,7 @@ Transaction * Transaction::deserializeFrom(const Data &data, int initial_pos) {
     switch ((TransactionType) data[initial_pos]) {
         case TransactionType::TT_MinerTransaction:
             resp = new MinerTransaction();
-            break;    
+            break;
         default:
             throw std::invalid_argument("Transaction::deserializeFrom Invalid transaction type");
             break;
@@ -56,6 +56,12 @@ Data Transaction::serialize() const {
     append(resp, ISerializable::serialize(attributes));
     append(resp, ISerializable::serialize(inInputs));
     append(resp, ISerializable::serialize(outputs));
+    if(witnesses.size())
+	 {
+		resp.push_back((byte) witnesses.size());
+		for (int i = 0; i < witnesses.size(); i++)
+		  append(resp, witnesses[i].serialize());
+	 }
 
     return resp;
 }

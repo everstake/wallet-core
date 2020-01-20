@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -78,12 +78,9 @@ const Account* StoredKey::account(TWCoinType coin, const HDWallet* wallet) {
 
     const auto derivationPath = TW::derivationPath(coin);
     const auto address = wallet->deriveAddress(coin);
-
-    std::string extendedPublicKey;
+    
     const auto version = TW::xpubVersion(coin);
-    if (version != TWHDVersionNone) {
-        extendedPublicKey = wallet->getExtendedPublicKey(derivationPath.purpose(), coin, version);
-    }
+    const auto extendedPublicKey = wallet->getExtendedPublicKey(derivationPath.purpose(), coin, version);
 
     accounts.emplace_back(address, derivationPath, extendedPublicKey);
     return &accounts.back();
@@ -97,6 +94,14 @@ const Account* StoredKey::account(TWCoinType coin) const {
     }
     return nullptr;
 }
+
+void StoredKey::removeAccount(TWCoinType coin) {
+    accounts.erase(std::remove_if(accounts.begin(), accounts.end(), [coin](Account& account) -> bool {
+        return account.coin() == coin;
+        }
+    ), accounts.end());
+}
+
 
 const PrivateKey StoredKey::privateKey(TWCoinType coin, const std::string& password) {
     switch (type) {

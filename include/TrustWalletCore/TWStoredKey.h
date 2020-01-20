@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -65,6 +65,10 @@ struct TWAccount *_Nullable TWStoredKeyAccount(struct TWStoredKey *_Nonnull key,
 /// Returns the account for a specific coin, creating it if necessary.
 TW_EXPORT_METHOD
 struct TWAccount *_Nullable TWStoredKeyAccountForCoin(struct TWStoredKey *_Nonnull key, enum TWCoinType coin, struct TWHDWallet *_Nullable wallet);
+
+/// Remove the account for a specific coin
+TW_EXPORT_METHOD
+void TWStoredKeyRemoveAccountForCoin(struct TWStoredKey *_Nonnull key, enum TWCoinType coin);
 
 /// Adds a new account.
 TW_EXPORT_METHOD
