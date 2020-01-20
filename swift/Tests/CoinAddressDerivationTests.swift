@@ -187,15 +187,12 @@ class CoinAddressDerivationTests: XCTestCase {
                 case .cardano:
                     let expectedResult = "Ae2tdPwUPEZJ2TwjFBMCnjz6t43pr4QVnBjCGSW8BMsttrt2WagC1D7LUWa"
                     AssetCoinDerivation(coin, expectedResult, derivedAddress, address)
-                case .neo:
-                    let expectedResult = "AUa3rzbGJe7MbHf8Kra9em8oaLBL1MDYKF"
-                    AssetCoinDerivation(coin, expectedResult, derivedAddress, address)
                 }
             }
         }
     }
 
-    private func AssetCoinDerivation(_ coin: CoinType, _ expected: String, _ derivedAddress: String, _ address: Address?) {
+    private func AssetCoinDerivation(_ coin: CoinType, _ expected: String, _ derivedAddress: String, _ address: AnyAddress?) {
         XCTAssertNotNil(address, "\(coin) is not implemented CoinType.address(string: String)")
         XCTAssertEqual(expected, derivedAddress, "\(coin) failed to match address")
         XCTAssertEqual(expected, address?.description, "\(coin) is not implemented CoinType.address(string: String)")
