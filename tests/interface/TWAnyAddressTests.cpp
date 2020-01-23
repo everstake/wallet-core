@@ -107,7 +107,7 @@ TEST(AnyAddress, Data) {
     {
         auto string = STRING("AKmrAHRD9ZDUnu4m3vWWonpsojo4vgSuqp");
         auto addr = WRAP(TWAnyAddress, TWAnyAddressCreateWithString(string.get(), TWCoinTypeNEO));
-        auto pubkey = WRAPD(TWAnyAddressData(addr.get()));
-        assertHexEqual(pubkey, "0222b2277d039d67f4197a638dd5a1d99c290b17aa8c4a16ccee5165fe612de66a");
+        auto keyHash = WRAPD(TWAnyAddressData(addr.get()));
+        assertHexEqual(keyHash, "172bdf43265c0adfe105a1a8c45b3f406a38362f24");
     }
 }
