@@ -103,4 +103,11 @@ TEST(AnyAddress, Data) {
         auto pubkey = WRAPD(TWAnyAddressData(addr.get()));
         assertHexEqual(pubkey, "fab55af5eaaa1a284b615946dc3dd403c44ce3448c15884d61b2dcba3ddb245a");
     }
+    // neo
+    {
+        auto string = STRING("AKmrAHRD9ZDUnu4m3vWWonpsojo4vgSuqp");
+        auto addr = WRAP(TWAnyAddress, TWAnyAddressCreateWithString(string.get(), TWCoinTypeNEO));
+        auto pubkey = WRAPD(TWAnyAddressData(addr.get()));
+        assertHexEqual(pubkey, "0222b2277d039d67f4197a638dd5a1d99c290b17aa8c4a16ccee5165fe612de66a");
+    }
 }
