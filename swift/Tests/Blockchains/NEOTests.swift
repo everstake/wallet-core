@@ -12,8 +12,8 @@ class NEOTests: XCTestCase {
     func testAddress() {
         let key = PrivateKey(data: Data(hexString: "2A9EAB0FEC93CD94FA0A209AC5604602C1F0105FB02EAB398E17B4517C2FFBAB")!)!
         let pubkey = key.getPublicKeyNist256p1()
-        let address = NEOAddress(publicKey: pubkey)
-        let addressFromString = NEOAddress(string: "AQCSMB3oSDA1dHPn6GXN6KB4NHmdo1fX41")
+        let address = AnyAddress(publicKey: pubkey, coin: .neo)
+        let addressFromString = AnyAddress(string: "AQCSMB3oSDA1dHPn6GXN6KB4NHmdo1fX41", coin: .neo)
 
         XCTAssertEqual(pubkey.data.hexString, "024d520691053ba53daf1692d2403c9a3ddd4955e82c513a065ec0e1a65476fc10")
         XCTAssertEqual(address.description, addressFromString?.description)
