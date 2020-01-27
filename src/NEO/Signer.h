@@ -17,9 +17,10 @@ class Signer {
   private:
     Data publicKey;
     TW::PrivateKey privateKey;
-    Address address;
+    Address* address;
   public:
     explicit Signer(const TW::PrivateKey &priKey);
+    ~Signer();
     PrivateKey getPrivateKey() const;
     PublicKey getPublicKey() const;
     Address getAddress() const;

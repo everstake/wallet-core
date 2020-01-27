@@ -8,6 +8,7 @@
 #include "../Base58.h"
 #include "../Hash.h"
 #include "../Data.h"
+#include "OpCode.h"
 
 #include "Address.h"
 
@@ -27,7 +28,7 @@ Address::Address(const PublicKey& publicKey) {
     pkdata.push_back(CHECKSIG);
 
     auto keyHash = Hash::ripemd(Hash::sha256(pkdata));
-    keyHash.insert(keyHash.begin(), version);
+    keyHash.insert(keyHash.begin(), (byte) Address::version);
 
     if (keyHash.size() != Address::size) {
         throw std::invalid_argument("Invalid address key data");
