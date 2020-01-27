@@ -1326,7 +1326,7 @@
         "info": {
             "url": "https://neo.org",
             "client": "https://github.com/neo-project/neo",
-            "clientPublic": "",
+            "clientPublic": "http://seed1.ngd.network:10332",
             "clientDocs": "https://neo.org/eco"
         }
     }
