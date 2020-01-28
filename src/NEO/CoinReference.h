@@ -11,10 +11,11 @@
 #include "../Data.h"
 #include "../BinaryCoding.h"
 #include "ISerializable.h"
+#include "Serializable.h"
 
 namespace TW::NEO {
 
-class CoinReference : public ISerializable {
+class CoinReference : public Serializable {
   public:
     uint256_t prevHash;
     uint16_t prevIndex;

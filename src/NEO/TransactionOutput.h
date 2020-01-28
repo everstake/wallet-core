@@ -11,10 +11,11 @@
 #include "../BinaryCoding.h"
 #include "ReadData.h"
 #include "ISerializable.h"
+#include "Serializable.h"
 
 namespace TW::NEO {
 
-class TransactionOutput : public ISerializable {
+class TransactionOutput : public Serializable {
   public:
     uint256_t assetId;
     int64_t value;
