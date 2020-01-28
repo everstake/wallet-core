@@ -17,6 +17,10 @@ namespace TW::NEO {
 
 class TransactionOutput : public Serializable {
   public:
+    static const size_t assetIdSize = 32;
+    static const size_t valueSize = 8;
+    static const size_t scriptHashSize = 20;
+
     uint256_t assetId;
     int64_t value;
     uint256_t scriptHash;
@@ -24,13 +28,13 @@ class TransactionOutput : public Serializable {
     virtual ~TransactionOutput() {}
 
     int64_t size() const override {
-        return store(assetId).size() + 8 + store(scriptHash).size();
+        return store(assetId).size() + valueSize + store(scriptHash).size();
     }
 
     void deserialize(const Data &data, int initial_pos = 0) override {
-        assetId = load(readBytes(data, 32, initial_pos));
-        value = decode64LE(data.data() + initial_pos + 32);
-        scriptHash = load(readBytes(data, 20, initial_pos + 32 + 8));
+        assetId = load(readBytes(data, AssetIdSize, initial_pos));
+        value = decode64LE(data.data() + initial_pos + AssetIdSize);
+        scriptHash = load(readBytes(data, ScriptHashSize, initial_pos + AssetIdSize + ValueSize));
     }
 
     Data serialize() const override {

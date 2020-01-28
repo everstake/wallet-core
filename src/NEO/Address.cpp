@@ -54,8 +54,8 @@ Data Address::toScriptHash(const Data& data) const {
 }
 
 Data Address::toScriptHash() const {
-    byte buf[20];
-    Data data(buf, buf + 20);
-    std::copy(bytes.begin() + 1, bytes.begin() + 21, data.begin());
+    byte buf[Hash::ripemdSize];
+    Data data(buf, buf + ripemdSize);
+    std::copy(bytes.begin() + 1, bytes.begin() + Hash::ripemdSize + 1, data.begin());
     return data;
 }
