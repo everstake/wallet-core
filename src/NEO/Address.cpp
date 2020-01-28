@@ -20,6 +20,13 @@ bool Address::isValid(const std::string& string) {
     return !(decoded.size() != Address::size || decoded[0] != version);
 }
 
+Address::Address() {
+    Data keyHash;
+    for (int i = 0; i < Address::size; i++)
+        keyHash.push_back(0);
+    std::copy(keyHash.data(), keyHash.data() + Address::size, bytes.begin());
+}
+
 Address::Address(const PublicKey& publicKey) {
     auto publicKeyData = publicKey.bytes;
 
