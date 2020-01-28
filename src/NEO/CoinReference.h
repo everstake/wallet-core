@@ -9,6 +9,7 @@
 #include "../uint256.h"
 #include "../UInt.h"
 #include "../Data.h"
+#include "../Hash.h"
 #include "../BinaryCoding.h"
 #include "ISerializable.h"
 #include "Serializable.h"

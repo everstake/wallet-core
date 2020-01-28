@@ -32,9 +32,9 @@ class TransactionOutput : public Serializable {
     }
 
     void deserialize(const Data &data, int initial_pos = 0) override {
-        assetId = load(readBytes(data, AssetIdSize, initial_pos));
-        value = decode64LE(data.data() + initial_pos + AssetIdSize);
-        scriptHash = load(readBytes(data, ScriptHashSize, initial_pos + AssetIdSize + ValueSize));
+        assetId = load(readBytes(data, assetIdSize, initial_pos));
+        value = decode64LE(data.data() + initial_pos + assetIdSize);
+        scriptHash = load(readBytes(data, scriptHashSize, initial_pos + assetIdSize + valueSize));
     }
 
     Data serialize() const override {
