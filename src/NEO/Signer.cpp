@@ -14,7 +14,7 @@
 using namespace TW;
 using namespace TW::NEO;
 
-Signer::Signer(const TW::PrivateKey &priKey)
+Signer::Signer(const PrivateKey &priKey)
     : privateKey(std::move(priKey)) {
     auto pub = privateKey.getPublicKey(TWPublicKeyTypeNIST256p1);
     publicKey = pub.bytes;
@@ -61,17 +61,17 @@ Proto::SigningOutput Signer::sign(const Proto::SigningInput &input) {
             CoinReference coin;
             Data prevHashReverse(input.inputs(i).prev_hash().begin(), input.inputs(i).prev_hash().end());
             std::reverse(prevHashReverse.begin(), prevHashReverse.end());
-            coin.prevHash = load<uint256_t>(prevHashReverse);
+            coin.prevHash = load(prevHashReverse);
             coin.prevIndex = (uint16_t)input.inputs(i).prev_index();
             transaction.inInputs.push_back(coin);
         }
 
         for (int i = 0; i < input.outputs_size(); i++) {
             TransactionOutput out;
-            out.assetId = load<uint256_t>(parse_hex(input.outputs(i).asset_id()));
+            out.assetId = load(parse_hex(input.outputs(i).asset_id()));
             out.value = (int64_t)input.outputs(i).value();
             auto scriptHash = TW::NEO::Address(input.outputs(i).address()).toScriptHash();
-            out.scriptHash = load<uint256_t>(scriptHash);
+            out.scriptHash = load(scriptHash);
             transaction.outputs.push_back(out);
         }
 
