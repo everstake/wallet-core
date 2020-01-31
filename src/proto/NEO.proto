@@ -44,19 +44,17 @@ message TransactionOutputPlan {
     // Maximum available amount.
     int64 available_amount = 2;
 
-    // Computed total transaction fee, only for asset id: GAS
-    int64 fee = 3;
-    int64 change = 4;
-    string asset_id = 5;
+    int64 change = 3;
+    string asset_id = 4;
 };
 
 // Describes a preliminary transaction plan.
 message TransactionPlan {
     // Used assets
-    repeated TransactionOutputPlan assets = 1;
+    repeated TransactionOutputPlan outputs = 1;
 
     // Selected unspent transaction outputs.
-    repeated TransactionInput utxo = 2;
+    repeated TransactionInput inputs = 2;
 
     // GAS used
     bool fee = 3;

@@ -49,28 +49,46 @@ Data Signer::sign(const Data &data) const {
     return signature;
 }
 
-Transaction Signer::prepareUnsignedTransaction(const Proto::SigningInput &input) {
+
+Proto::TransactionPlan Signer::planTransaction(const Proto::SigningInput& input) {
+    Proto::TransactionPlan plan;
+
+    return plan;
+}
+
+Transaction Signer::prepareUnsignedTransaction(const Proto::SigningInput &input, const Proto::TransactionPlan& plan) {
     try {
         auto transaction = Transaction();
         transaction.type = TransactionType::TT_ContractTransaction;
         transaction.version = 0;
 
-        for (int i = 0; i < input.inputs_size(); i++) {
+        for (int i = 0; i < plan.inputs_size(); i++) {
             CoinReference coin;
-            Data prevHashReverse(input.inputs(i).prev_hash().begin(), input.inputs(i).prev_hash().end());
+            Data prevHashReverse(plan.inputs(i).prev_hash().begin(), plan.inputs(i).prev_hash().end());
             std::reverse(prevHashReverse.begin(), prevHashReverse.end());
             coin.prevHash = load(prevHashReverse);
-            coin.prevIndex = (uint16_t)input.inputs(i).prev_index();
+            coin.prevIndex = (uint16_t)plan.inputs(i).prev_index();
             transaction.inInputs.push_back(coin);
         }
 
-        for (int i = 0; i < input.outputs_size(); i++) {
-            TransactionOutput out;
-            out.assetId = load(parse_hex(input.outputs(i).asset_id()));
-            out.value = (int64_t)input.outputs(i).value();
-            auto scriptHash = TW::NEO::Address(input.outputs(i).address()).toScriptHash();
-            out.scriptHash = load(scriptHash);
-            transaction.outputs.push_back(out);
+        for (int i = 0; i < plan.outputs_size(); i++) {
+            {
+                TransactionOutput out;
+                out.assetId = load(parse_hex(plan.outputs(i).asset_id()));
+                out.value = (int64_t) plan.outputs(i).amount();
+                auto scriptHash = TW::NEO::Address(plan.outputs(i).)).toScriptHash();
+                out.scriptHash = load(scriptHash);
+                transaction.outputs.push_back(out);
+            }
+
+            if (plan.outputs(i).amount() > plan.outputs(i).available_amount()) {
+                TransactionOutput out;
+                out.assetId = load(parse_hex(plan.outputs(i).asset_id()));
+                out.value = plan.outputs(i).available_amount() - plan.outputs(i).amount();
+                auto scriptHash = TW::NEO::Address(plan.outputs(i).change()).toScriptHash();
+                out.scriptHash = load(scriptHash);
+                transaction.outputs.push_back(out);
+            }
         }
         return transaction;
     } catch (...) {
@@ -79,11 +97,11 @@ Transaction Signer::prepareUnsignedTransaction(const Proto::SigningInput &input)
     return Transaction();
 }
 
-Proto::SigningOutput Signer::sign(const Proto::SigningInput &input) {
+Proto::SigningOutput Signer::sign(const Proto::SigningInput &input, const Proto::TransactionPlan& plan) {
     auto output = Proto::SigningOutput();
     try {
         auto signer = Signer(PrivateKey(Data(input.private_key().begin(), input.private_key().end())));
-        auto transaction = prepareUnsignedTransaction(input);
+        auto transaction = prepareUnsignedTransaction(input, plan);
         signer.sign(transaction);
         auto signedTx = transaction.serialize();
 
