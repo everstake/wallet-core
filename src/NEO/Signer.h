@@ -28,6 +28,8 @@ class Signer {
     static Proto::SigningOutput sign(const Proto::SigningInput& input);
     void sign(Transaction &tx) const;
     Data sign(const Data &data) const;
+  private:
+    static Transaction prepareUnsignedTransaction(const Proto::SigningInput& input);
 };
 
 } // namespace TW::NEO

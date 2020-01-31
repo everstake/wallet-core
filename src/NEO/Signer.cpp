@@ -49,10 +49,8 @@ Data Signer::sign(const Data &data) const {
     return signature;
 }
 
-Proto::SigningOutput Signer::sign(const Proto::SigningInput &input) {
-    auto output = Proto::SigningOutput();
+Transaction Signer::prepareUnsignedTransaction(const Proto::SigningInput &input) {
     try {
-        auto signer = Signer(PrivateKey(Data(input.private_key().begin(), input.private_key().end())));
         auto transaction = Transaction();
         transaction.type = TransactionType::TT_ContractTransaction;
         transaction.version = 0;
@@ -74,7 +72,18 @@ Proto::SigningOutput Signer::sign(const Proto::SigningInput &input) {
             out.scriptHash = load(scriptHash);
             transaction.outputs.push_back(out);
         }
+        return transaction;
+    } catch (...) {
+    }
 
+    return Transaction();
+}
+
+Proto::SigningOutput Signer::sign(const Proto::SigningInput &input) {
+    auto output = Proto::SigningOutput();
+    try {
+        auto signer = Signer(PrivateKey(Data(input.private_key().begin(), input.private_key().end())));
+        auto transaction = prepareUnsignedTransaction(input);
         signer.sign(transaction);
         auto signedTx = transaction.serialize();
 
