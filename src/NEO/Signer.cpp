@@ -13,6 +13,7 @@
 
 using namespace TW;
 using namespace TW::NEO;
+using namespace std;
 
 Signer::Signer(const PrivateKey &priKey)
     : privateKey(std::move(priKey)) {
@@ -49,9 +50,92 @@ Data Signer::sign(const Data &data) const {
     return signature;
 }
 
-
-Proto::TransactionPlan Signer::planTransaction(const Proto::SigningInput& input) {
+Proto::TransactionPlan Signer::planTransaction(const Proto::SigningInput &input)
+{
     Proto::TransactionPlan plan;
+    std::map<std::string, int64_t> available;
+    std::map<std::string, int64_t> required;
+
+    for (int i = 0; i < input.outputs_size(); i++) {
+        required[input.outputs(i).asset_id()] = input.outputs(i).amount();
+    }
+
+    for (int i = 0; i < input.inputs_size(); i++) {
+        if (available.find(input.inputs(i).asset_id()) == available.end()) {
+            available[input.inputs(i).asset_id()] = input.inputs(i).value();
+            plan.add_inputs()->MergeFrom(input.inputs(i));
+            continue;
+        }
+
+        if (input.inputs(i).asset_id() != input.gas_asset_id()
+                && required[input.inputs(i).asset_id()] < available[input.inputs(i).asset_id()])
+            continue;
+
+        available[input.inputs(i).asset_id()] += input.inputs(i).value();
+        plan.add_inputs()->MergeFrom(input.inputs(i));
+    }
+
+    int existGASTransfer = -1;
+    for (int i = 0; i < input.outputs_size(); i++) {
+        auto outputPlan = plan.add_outputs();
+
+        if (available.find(input.inputs(i).asset_id()) == available.end()
+            || available[input.outputs(i).asset_id()] < input.outputs(i).amount())
+            throw "Input balance for asset too low";
+
+        if (input.inputs(i).asset_id() == input.gas_asset_id())
+            existGASTransfer = i;
+
+        int64_t availableAmount = available[input.outputs(i).asset_id()];
+        outputPlan->set_available_amount(availableAmount);
+        outputPlan->set_amount(input.outputs(i).amount());
+        outputPlan->set_change(availableAmount - input.outputs(i).amount());
+
+        outputPlan->set_to_address(input.outputs(i).to_address());
+        outputPlan->set_asset_id(input.outputs(i).asset_id());
+        outputPlan->set_change_address(input.outputs(i).change_address());
+    }
+
+    const int64_t SIGNATURE_SIZE = 103;
+    int64_t transactionSize = prepareUnsignedTransaction(input, plan).serialize().size() + SIGNATURE_SIZE;
+
+    const int64_t LARGE_TX_SIZE = 1024;
+    const int64_t MIN_FEE_FOR_LARGE_TX = 100000;
+    const int64_t FEE_FOR_BYTE_OF_TX = 1000;
+
+    bool feeNeed = input.fee() > 0;
+    if (transactionSize >= LARGE_TX_SIZE) {
+        feeNeed = true;
+    }
+    if (feeNeed && existGASTransfer < 0) {
+        auto outputPlan = plan.add_outputs();
+        existGASTransfer = plan.outputs_size() - 1;
+
+        if (available.find(input.gas_asset_id()) == available.end()
+            || available[input.gas_asset_id()] < 1024)
+            throw "Transaction too big, fee in GAS needed or try send by parts";
+
+        int64_t availableAmount = available[input.gas_asset_id()];
+        outputPlan->set_available_amount(availableAmount);
+        outputPlan->set_amount(0);
+        outputPlan->set_change(availableAmount);
+
+        outputPlan->set_to_address(input.gas_change_address());
+        outputPlan->set_change_address(input.gas_change_address());
+        outputPlan->set_asset_id(input.gas_asset_id());
+    }
+
+    if (feeNeed) {
+        transactionSize = prepareUnsignedTransaction(input, plan).serialize().size() + SIGNATURE_SIZE;
+        int64_t fee = 0;
+        if(transactionSize >= LARGE_TX_SIZE)
+            fee += MIN_FEE_FOR_LARGE_TX;
+        fee += transactionSize * FEE_FOR_BYTE_OF_TX;
+        fee = input.fee() < fee ? fee : input.fee();
+        int64_t change = plan.outputs(existGASTransfer).change() - fee;
+        plan.mutable_outputs(existGASTransfer)->set_change(change);
+        plan.set_fee(fee);
+    }
 
     return plan;
 }
@@ -78,7 +162,7 @@ Transaction Signer::prepareUnsignedTransaction(const Proto::SigningInput &input,
                     throw "Wrong fee";
             }
 
-            { // to recipient
+            if (plan.outputs(i).amount() > 0) { // to recipient, 0 if gas change only exist
                 TransactionOutput out;
                 out.assetId = load(parse_hex(plan.outputs(i).asset_id()));
                 out.value = (int64_t) plan.outputs(i).amount();

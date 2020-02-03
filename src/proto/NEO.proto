@@ -9,6 +9,8 @@ message TransactionInput {
 
     // unspent value of UTXO
     int64 value = 3;
+
+    string asset_id = 4;
 }
 
 message TransactionOutput {
@@ -25,6 +27,7 @@ message SigningInput {
     bytes private_key = 3;
     int64 fee = 4;
     string gas_asset_id = 5;
+    string gas_change_address = 6;
 }
 
 // Transaction signing output.

@@ -20,7 +20,12 @@ TW_NEO_Proto_TransactionPlan TWNEOSignerPlanTransaction(TW_NEO_Proto_SigningInpu
         // failed to parse input, return empty output with error
         plan.set_error("Error: could not parse input");
     } else {
-        plan = Signer::planTransaction(std::move(input));
+        try {
+            plan = Signer::planTransaction(std::move(input));
+        }
+        catch (char const *error) {
+            plan.set_error(error);
+        }
     }
     auto serialized = plan.SerializeAsString();
     return TWDataCreateWithBytes(reinterpret_cast<const uint8_t*>(serialized.data()), serialized.size());
