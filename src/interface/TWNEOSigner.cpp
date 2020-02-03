@@ -35,7 +35,12 @@ TW_NEO_Proto_SigningOutput TWNEOSignerSign(TW_NEO_Proto_SigningInput inputData, 
         // failed to parse input/plan, return empty output with error
         output.set_error("Error: could not parse input/plan");
     } else {
-        output = Signer::sign(std::move(input), std::move(plan));
+        try {
+            output = Signer::sign(std::move(input), std::move(plan));
+        }
+        catch (char const *error) {
+            output.set_error(error);
+        }
     }
     auto serialized = output.SerializeAsString();
     return TWDataCreateWithBytes(reinterpret_cast<const uint8_t*>(serialized.data()), serialized.size());

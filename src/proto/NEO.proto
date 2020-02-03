@@ -46,6 +46,8 @@ message TransactionOutputPlan {
 
     int64 change = 3;
     string asset_id = 4;
+    string to_address = 5;
+    string change_address = 6;
 };
 
 // Describes a preliminary transaction plan.

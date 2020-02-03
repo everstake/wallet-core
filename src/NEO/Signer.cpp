@@ -72,20 +72,27 @@ Transaction Signer::prepareUnsignedTransaction(const Proto::SigningInput &input,
         }
 
         for (int i = 0; i < plan.outputs_size(); i++) {
-            {
+            if (plan.outputs(i).asset_id() == input.gas_asset_id()) {
+                if (plan.outputs(i).amount() + plan.outputs(i).change() + plan.fee()
+                    != plan.outputs(i).available_amount())
+                    throw "Wrong fee";
+            }
+
+            { // to recipient
                 TransactionOutput out;
                 out.assetId = load(parse_hex(plan.outputs(i).asset_id()));
                 out.value = (int64_t) plan.outputs(i).amount();
-                auto scriptHash = TW::NEO::Address(plan.outputs(i).)).toScriptHash();
+                auto scriptHash = TW::NEO::Address(plan.outputs(i).to_address()).toScriptHash();
                 out.scriptHash = load(scriptHash);
                 transaction.outputs.push_back(out);
             }
 
-            if (plan.outputs(i).amount() > plan.outputs(i).available_amount()) {
+            // change
+            if (plan.outputs(i).change() > 0) {
                 TransactionOutput out;
                 out.assetId = load(parse_hex(plan.outputs(i).asset_id()));
-                out.value = plan.outputs(i).available_amount() - plan.outputs(i).amount();
-                auto scriptHash = TW::NEO::Address(plan.outputs(i).change()).toScriptHash();
+                out.value = plan.outputs(i).change();
+                auto scriptHash = TW::NEO::Address(plan.outputs(i).change_address()).toScriptHash();
                 out.scriptHash = load(scriptHash);
                 transaction.outputs.push_back(out);
             }
