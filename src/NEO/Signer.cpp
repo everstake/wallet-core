@@ -158,10 +158,6 @@ Transaction Signer::prepareUnsignedTransaction(const Proto::SigningInput &input,
 
         for (int i = 0; i < plan.outputs_size(); i++) {
             if (plan.outputs(i).asset_id() == input.gas_asset_id()) {
-                int64_t sdfsdf = plan.outputs(i).amount() ;
-                int64_t dfg = plan.outputs(i).change() ;
-                int64_t dfgdfg = plan.fee();
-                int64_t dfgdf = plan.outputs(i).available_amount();
                 if (validate && plan.outputs(i).amount() + plan.outputs(i).change() + plan.fee()
                     != plan.outputs(i).available_amount())
                     throw "Wrong fee";

@@ -30,7 +30,7 @@ class Signer {
     void sign(Transaction &tx) const;
     Data sign(const Data &data) const;
   private:
-    static Transaction prepareUnsignedTransaction(const Proto::SigningInput& input, const Proto::TransactionPlan& plan, bool validate = false);
+    static Transaction prepareUnsignedTransaction(const Proto::SigningInput& input, const Proto::TransactionPlan& plan, bool validate = true);
 };
 
 } // namespace TW::NEO

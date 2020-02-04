@@ -62,7 +62,7 @@ message TransactionPlan {
     repeated TransactionInput inputs = 2;
 
     // GAS used
-    bool fee = 3;
+    int64 fee = 3;
 
     // Error message in case of error
     string error = 4;
