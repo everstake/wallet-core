@@ -346,7 +346,7 @@ class NEOTests: XCTestCase {
             inputTx.inputs.append(input)
         }
 
-        let output = NEOTransactionOutputPlan.with {
+        let output = NEOTransactionOutput.with {
             $0.assetID = NEO_ASSET_ID
             $0.amount = 25000000000
             $0.to_address = "Ad9A1xPbuA5YBFr1XPznDwBwQzdckAjCev"
