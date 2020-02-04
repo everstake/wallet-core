@@ -83,7 +83,7 @@ Proto::TransactionPlan Signer::planTransaction(const Proto::SigningInput &input)
             || available[input.outputs(i).asset_id()] < input.outputs(i).amount())
             throw "Input balance for asset too low";
 
-        if (input.inputs(i).asset_id() == input.gas_asset_id())
+        if (input.outputs(i).asset_id() == input.gas_asset_id())
             existGASTransfer = i;
 
         int64_t availableAmount = available[input.outputs(i).asset_id()];
@@ -97,7 +97,7 @@ Proto::TransactionPlan Signer::planTransaction(const Proto::SigningInput &input)
     }
 
     const int64_t SIGNATURE_SIZE = 103;
-    int64_t transactionSize = prepareUnsignedTransaction(input, plan).serialize().size() + SIGNATURE_SIZE;
+    int64_t transactionSize = prepareUnsignedTransaction(input, plan, false).serialize().size() + SIGNATURE_SIZE;
 
     const int64_t LARGE_TX_SIZE = 1024;
     const int64_t MIN_FEE_FOR_LARGE_TX = 100000;
@@ -126,11 +126,12 @@ Proto::TransactionPlan Signer::planTransaction(const Proto::SigningInput &input)
     }
 
     if (feeNeed) {
-        transactionSize = prepareUnsignedTransaction(input, plan).serialize().size() + SIGNATURE_SIZE;
+        transactionSize = prepareUnsignedTransaction(input, plan, false).serialize().size() + SIGNATURE_SIZE;
         int64_t fee = 0;
-        if(transactionSize >= LARGE_TX_SIZE)
-            fee += MIN_FEE_FOR_LARGE_TX;
-        fee += transactionSize * FEE_FOR_BYTE_OF_TX;
+        if(transactionSize >= LARGE_TX_SIZE) {
+            fee = MIN_FEE_FOR_LARGE_TX;
+            fee += transactionSize * FEE_FOR_BYTE_OF_TX;
+        }
         fee = input.fee() < fee ? fee : input.fee();
         int64_t change = plan.outputs(existGASTransfer).change() - fee;
         plan.mutable_outputs(existGASTransfer)->set_change(change);
@@ -140,7 +141,7 @@ Proto::TransactionPlan Signer::planTransaction(const Proto::SigningInput &input)
     return plan;
 }
 
-Transaction Signer::prepareUnsignedTransaction(const Proto::SigningInput &input, const Proto::TransactionPlan& plan) {
+Transaction Signer::prepareUnsignedTransaction(const Proto::SigningInput &input, const Proto::TransactionPlan& plan, bool validate) {
     try {
         auto transaction = Transaction();
         transaction.type = TransactionType::TT_ContractTransaction;
@@ -157,7 +158,11 @@ Transaction Signer::prepareUnsignedTransaction(const Proto::SigningInput &input,
 
         for (int i = 0; i < plan.outputs_size(); i++) {
             if (plan.outputs(i).asset_id() == input.gas_asset_id()) {
-                if (plan.outputs(i).amount() + plan.outputs(i).change() + plan.fee()
+                int64_t sdfsdf = plan.outputs(i).amount() ;
+                int64_t dfg = plan.outputs(i).change() ;
+                int64_t dfgdfg = plan.fee();
+                int64_t dfgdf = plan.outputs(i).available_amount();
+                if (validate && plan.outputs(i).amount() + plan.outputs(i).change() + plan.fee()
                     != plan.outputs(i).available_amount())
                     throw "Wrong fee";
             }
@@ -197,7 +202,9 @@ Proto::SigningOutput Signer::sign(const Proto::SigningInput &input, const Proto:
         auto signedTx = transaction.serialize();
 
         output.set_encoded(signedTx.data(), signedTx.size());
-    } catch (...) {
+    }
+    catch (char const *error) {
+        output.set_error(error);
     }
 
     return output;

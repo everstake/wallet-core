@@ -43,8 +43,7 @@ TW_NEO_Proto_SigningOutput TWNEOSignerSign(TW_NEO_Proto_SigningInput inputData, 
         try {
             output = Signer::sign(std::move(input), std::move(plan));
         }
-        catch (char const *error) {
-            output.set_error(error);
+        catch (...) {
         }
     }
     auto serialized = output.SerializeAsString();

@@ -8,6 +8,7 @@
 #include "HexCoding.h"
 #include "NEO/Address.h"
 #include "NEO/Signer.h"
+#include "proto/NEO.pb.h"
 
 #include <gtest/gtest.h>
 
@@ -86,51 +87,100 @@ TEST(NEOSigner, SigningTransaction) {
 
 
 TEST(NEOSigner, TransactionSignAndPlan) {
-    auto signer = Signer(PrivateKey(parse_hex("F18B2F726000E86B4950EBEA7BFF151F69635951BC4A31C44F28EE6AF7AEC128")));
-    auto transaction = Transaction();
-    transaction.type = TransactionType::TT_ContractTransaction;
-    transaction.version = 0x00;
-
-    CoinReference coin;
-    coin.prevHash = load(parse_hex("0f52956df7b1ffc669c0e65b6c1c048d631ad053242f565c91f93fa8ef651d8e")); //reverse hash
-    coin.prevIndex = (uint16_t) 1;
-    transaction.inInputs.push_back(coin);
-
-    coin.prevHash = load(parse_hex("546ee3c8d1e71ccf285e48f8856ab3a123ade824bfd35e75f8a9c60930e4c561")); //reverse hash
-    coin.prevIndex = (uint16_t) 2;
-    transaction.inInputs.push_back(coin);
+    Proto::SigningInput input;
+    auto privateKey = parse_hex("F18B2F726000E86B4950EBEA7BFF151F69635951BC4A31C44F28EE6AF7AEC128");
+    input.set_private_key(privateKey.data(), privateKey.size());
+    input.set_fee(123456); //too low
+    input.set_gas_asset_id("e72d286979ee6cb1b7e65dfddfb2e384100b8d148e7758de42e4168b71792c60");
+    input.set_gas_change_address("AdtSLMBqACP4jv8tRWwyweXGpyGG46eMXV");
 
     {
-        TransactionOutput out;
-        out.assetId = load(parse_hex("9b7cffdaa674beae0f930ebe6085af9093e5fe56b34a5c220ccdcf6efc336fc5"));
-        out.value = (int64_t) 1 * 100000000;
-        auto scriptHash = TW::NEO::Address("Ad9A1xPbuA5YBFr1XPznDwBwQzdckAjCev").toScriptHash();
-        out.scriptHash = load(scriptHash);
-        transaction.outputs.push_back(out);
+        auto output = input.add_outputs();
+        output->set_asset_id("9b7cffdaa674beae0f930ebe6085af9093e5fe56b34a5c220ccdcf6efc336fc5");
+        output->set_to_address("Ad9A1xPbuA5YBFr1XPznDwBwQzdckAjCev");
+        output->set_change_address("AdtSLMBqACP4jv8tRWwyweXGpyGG46eMXV");
+        output->set_amount(25000000000);
     }
 
     {
-        TransactionOutput out;
-        out.assetId = load(parse_hex("9b7cffdaa674beae0f930ebe6085af9093e5fe56b34a5c220ccdcf6efc336fc5"));
-        out.value = (int64_t) 390 * 100000000;
-        auto scriptHash = TW::NEO::Address("AdtSLMBqACP4jv8tRWwyweXGpyGG46eMXV").toScriptHash();
-        out.scriptHash = load(scriptHash);
-        transaction.outputs.push_back(out);
+        auto utxo = input.add_inputs();
+        utxo->set_prev_hash("9603fdc3000cf77f855ac7d0f329a411894e5f8dda2baedffc80ad2c310404cf");
+        utxo->set_prev_index(2);
+        utxo->set_asset_id("e72d286979ee6cb1b7e65dfddfb2e384100b8d148e7758de42e4168b71792c60");
+        utxo->set_value(99899890000);
     }
-
     {
-        TransactionOutput out;
-        out.assetId = load(parse_hex("e72d286979ee6cb1b7e65dfddfb2e384100b8d148e7758de42e4168b71792c60"));
-        out.value = (int64_t) 999.9989 * 100000000;
-        auto scriptHash = TW::NEO::Address("AdtSLMBqACP4jv8tRWwyweXGpyGG46eMXV").toScriptHash();
-        out.scriptHash = load(scriptHash);
-        transaction.outputs.push_back(out);
+        auto utxo = input.add_inputs();
+        utxo->set_prev_hash("6ea9ce8c578bfeeecdf281f498e2a764689df3b93d6855a3cc45bd6b5213c426");
+        utxo->set_prev_index(0);
+        utxo->set_asset_id("9b7cffdaa674beae0f930ebe6085af9093e5fe56b34a5c220ccdcf6efc336fc5");
+        utxo->set_value(4);
     }
-    signer.sign(transaction);
-    auto signedTx = transaction.serialize();
+    {
+        auto utxo = input.add_inputs();
+        utxo->set_prev_hash("8b0c42d448912fc28c674fdcf8e21e4667d7d2133666168eaa0570488a9c5036");
+        utxo->set_prev_index(0);
+        utxo->set_asset_id("9b7cffdaa674beae0f930ebe6085af9093e5fe56b34a5c220ccdcf6efc336fc5");
+        utxo->set_value(500000000);
+    }
+    {
+        auto utxo = input.add_inputs();
+        utxo->set_prev_hash("9bd7572ba8df685e262369897d24f7217b42be496b9eed16e16a889dd83b394e");
+        utxo->set_prev_index(0);
+        utxo->set_asset_id("9b7cffdaa674beae0f930ebe6085af9093e5fe56b34a5c220ccdcf6efc336fc5");
+        utxo->set_value(500000000);
+    }
+    {
+        auto utxo = input.add_inputs();
+        utxo->set_prev_hash("4acec74a76161eafe70e0791b1f504b5ba1d175fd4f340d5bf56804e25505e92");
+        utxo->set_prev_index(0);
+        utxo->set_asset_id("9b7cffdaa674beae0f930ebe6085af9093e5fe56b34a5c220ccdcf6efc336fc5");
+        utxo->set_value(300000000);
+    }
+    {
+        auto utxo = input.add_inputs();
+        utxo->set_prev_hash("5345e4abc86f7ace47112f5a91c129175833bafcaf9f1e1bcbbaf4d019c1c69d");
+        utxo->set_prev_index(0);
+        utxo->set_asset_id("9b7cffdaa674beae0f930ebe6085af9093e5fe56b34a5c220ccdcf6efc336fc5");
+        utxo->set_value(500000000);
+    }
+    {
+        auto utxo = input.add_inputs();
+        utxo->set_prev_hash("54828143c4c3a0e1b09102e4ed29220b141089c2bc4200b1042eeb12e5e49296");
+        utxo->set_prev_index(0);
+        utxo->set_asset_id("9b7cffdaa674beae0f930ebe6085af9093e5fe56b34a5c220ccdcf6efc336fc5");
+        utxo->set_value(500000000);
+    }
+    {
+        auto utxo = input.add_inputs();
+        utxo->set_prev_hash("3456b03f5cb688ce26ab1d09b7a15799136c8c886ca7c3c6bcb2363e61bb1bb1");
+        utxo->set_prev_index(0);
+        utxo->set_asset_id("9b7cffdaa674beae0f930ebe6085af9093e5fe56b34a5c220ccdcf6efc336fc5");
+        utxo->set_value(500000000);
+    }
+    {
+        auto utxo = input.add_inputs();
+        utxo->set_prev_hash("1455e9dd3cd6a04d81cd47acc07a7335212029ebbdcd0abc3e52c33f8b77f6eb");
+        utxo->set_prev_index(0);
+        utxo->set_asset_id("9b7cffdaa674beae0f930ebe6085af9093e5fe56b34a5c220ccdcf6efc336fc5");
+        utxo->set_value(500000000);
+    }
+    {
+        auto utxo = input.add_inputs();
+        utxo->set_prev_hash("da711260085211b5573801d0dfe064235c69e61a55f9c15449ac55cc02b9adee");
+        utxo->set_prev_index(0);
+        utxo->set_asset_id("9b7cffdaa674beae0f930ebe6085af9093e5fe56b34a5c220ccdcf6efc336fc5");
+        utxo->set_value(500000000);
+    }
+    {
+        auto utxo = input.add_inputs();
+        utxo->set_prev_hash("9603fdc3000cf77f855ac7d0f329a411894e5f8dda2baedffc80ad2c310404cf");
+        utxo->set_prev_index(1);
+        utxo->set_asset_id("9b7cffdaa674beae0f930ebe6085af9093e5fe56b34a5c220ccdcf6efc336fc5");
+        utxo->set_value(39000000000);
+    }
 
-
-    #define mylog(val) { \
+#define mylog(val) { \
                 FILE* f = fopen("/home/s/my.log", "a"); \
                 fseek ( f , 0 , SEEK_END ); \
                 fwrite(val, strlen(val), 1, f); \
@@ -138,7 +188,10 @@ TEST(NEOSigner, TransactionSignAndPlan) {
                 fclose(f); \
             }
 
-    mylog(hex(signedTx).c_str());
+    auto plan = Signer::planTransaction(input);
+    auto output = Signer::sign(input, plan);
 
-    EXPECT_EQ(hex(signedTx), "800000019c85b39cd5677e2bfd6bf8a711e8da93a2f1d172b2a52c6ca87757a4bccc24de0100029b7cffdaa674beae0f930ebe6085af9093e5fe56b34a5c220ccdcf6efc336fc500e1f50500000000ea610aa6db39bd8c8556c9569d94b5e5a5d0ad199b7cffdaa674beae0f930ebe6085af9093e5fe56b34a5c220ccdcf6efc336fc500fcbbc414000000f2908c7efc0c9e43ffa7e79170ba37e501e1b4ac0141405046619c8e20e1fdeec92ce95f3019f6e7cc057294eb16b2d5e55c105bf32eb27e1fc01c1858576228f1fef8c0945a8ad69688e52a4ed19f5b85f5eff7e961d7232102a41c2aea8568864b106553729d32b1317ec463aa23e7a3521455d95992e17a7aac");
+    mylog(hex(output.encoded()).c_str());
+
+    ASSERT_EQ(hex(output.encoded()), "dfgdfgdf");;
 }
