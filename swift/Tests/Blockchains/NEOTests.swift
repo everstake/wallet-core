@@ -349,7 +349,7 @@ class NEOTests: XCTestCase {
             $0.assetID = NEO_ASSET_ID
             $0.amount = 25000000000
             $0.toAddress = "Ad9A1xPbuA5YBFr1XPznDwBwQzdckAjCev"
-            $0.changeAddress = "Ad9A1xPbuA5YBFr1XPznDwBwQzdckAjCev"
+            $0.changeAddress = "AdtSLMBqACP4jv8tRWwyweXGpyGG46eMXV"
         }
         inputTx.outputs.append(output)
 
