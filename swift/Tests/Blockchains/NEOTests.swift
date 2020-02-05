@@ -26,7 +26,7 @@ class NEOTests: XCTestCase {
         var inputTx = NEOSigningInput.with {
             $0.privateKey = Data(hexString: "F18B2F726000E86B4950EBEA7BFF151F69635951BC4A31C44F28EE6AF7AEC128")!
             $0.fee = 12345!
-            $0.gas_asset_id = GAS_ASSET_ID!
+            $0.gasAssetID = GAS_ASSET_ID!
             $0.gas_change_address = "AdtSLMBqACP4jv8tRWwyweXGpyGG46eMXV"!
         }
 
@@ -35,7 +35,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "c61508268c5d0343af1875c60e569493100824dbdba108b31789e0e33bcb50fb")!
                 $0.prevIndex = 1
                 $0.value = 98899890000
-                $0.asset_id = GAS_ASSET_ID
+                $0.assetID = GAS_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -44,7 +44,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "4eb2f96937a0d4dc96b77ba69a29e1de9574cbd62b16d881f1ee2061a291d70b")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -53,7 +53,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "3fee0109d155dcfab272176117306b45b176914c88e8c379933c246a9e29ea0b")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -62,7 +62,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "6ea9ce8c578bfeeecdf281f498e2a764689df3b93d6855a3cc45bd6b5213c426")!
                 $0.prevIndex = 0
                 $0.value = 400000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -71,7 +71,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "f75ad3cbd277d83ee240e08f99a97ffd7e42a82a868e0f7043414f6d6147262b")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -80,7 +80,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "054734e98f442b3e73a940ca8f594859ece1c7ddac14130b0e2f5e2799b85931")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -89,7 +89,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "8b0c42d448912fc28c674fdcf8e21e4667d7d2133666168eaa0570488a9c5036")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -98,7 +98,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "048f73d6cc82d9d92b08044eccef66c78a0c22e836988ed25d6f7ffe24fb5b38")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -107,7 +107,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "048f73d6cc82d9d92b08044eccef66c78a0c22e836988ed25d6f7ffe24fb5b38")!
                 $0.prevIndex = 1
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -116,7 +116,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "048f73d6cc82d9d92b08044eccef66c78a0c22e836988ed25d6f7ffe24fb5b38")!
                 $0.prevIndex = 2
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -125,7 +125,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "048f73d6cc82d9d92b08044eccef66c78a0c22e836988ed25d6f7ffe24fb5b38")!
                 $0.prevIndex = 3
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -134,7 +134,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "048f73d6cc82d9d92b08044eccef66c78a0c22e836988ed25d6f7ffe24fb5b38")!
                 $0.prevIndex = 4
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -143,7 +143,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "048f73d6cc82d9d92b08044eccef66c78a0c22e836988ed25d6f7ffe24fb5b38")!
                 $0.prevIndex = 5
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -152,7 +152,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "048f73d6cc82d9d92b08044eccef66c78a0c22e836988ed25d6f7ffe24fb5b38")!
                 $0.prevIndex = 6
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -161,7 +161,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "048f73d6cc82d9d92b08044eccef66c78a0c22e836988ed25d6f7ffe24fb5b38")!
                 $0.prevIndex = 7
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -170,7 +170,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "048f73d6cc82d9d92b08044eccef66c78a0c22e836988ed25d6f7ffe24fb5b38")!
                 $0.prevIndex = 8
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -179,7 +179,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "048f73d6cc82d9d92b08044eccef66c78a0c22e836988ed25d6f7ffe24fb5b38")!
                 $0.prevIndex = 9
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -188,7 +188,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "cf83bce600626b6077e136581c1aecc78a0bbb7d7649b1f580b6be881087ec40")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -197,7 +197,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "9bd7572ba8df685e262369897d24f7217b42be496b9eed16e16a889dd83b394e")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -206,7 +206,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "b4ee250397dde2f1001d782d3c803c38992447d3b351cdc9bf20cfaa2cbf995b")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -215,7 +215,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "e1019ca259a1615f77263324156a70007b76cb4f26b01b2956b8f85e6842ac62")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -224,7 +224,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "bd379df2aca526ac600919aaba0e59d4a1ad4e2f22d18966063cf45e431d016f")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -233,7 +233,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "164c3f843b9b7bfa6a7376a1548f343acb5cdfa0193b8f31e8c9a647ea63ea7d")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -242,7 +242,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "4acec74a76161eafe70e0791b1f504b5ba1d175fd4f340d5bf56804e25505e92")!
                 $0.prevIndex = 0
                 $0.value = 300000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -251,7 +251,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "895c6629a71c84cbdc8956abea9ca2d9d215e909e6173b1a1a96289186a67796")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -260,7 +260,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "54828143c4c3a0e1b09102e4ed29220b141089c2bc4200b1042eeb12e5e49296")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -269,7 +269,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "5345e4abc86f7ace47112f5a91c129175833bafcaf9f1e1bcbbaf4d019c1c69d")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -278,7 +278,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "c83e19d0d4210df97b3bc7768dc7184ae3acfc1b5b3ac9b05d2be0fe5a636b9f")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -287,7 +287,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "3456b03f5cb688ce26ab1d09b7a15799136c8c886ca7c3c6bcb2363e61bb1bb1")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -296,7 +296,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "048f73d6cc82d9d92b08044eccef66c78a0c22e836988ed25d6f7ffe24fb5b38")!
                 $0.prevIndex = 10
                 $0.value = 34000000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -305,7 +305,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "e5a7887521b8b3aaf2d5426617ddabe8ef8ea3eab31c80a977c3b8f339df5be0")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -314,7 +314,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "1455e9dd3cd6a04d81cd47acc07a7335212029ebbdcd0abc3e52c33f8b77f6eb")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -323,7 +323,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "da711260085211b5573801d0dfe064235c69e61a55f9c15449ac55cc02b9adee")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -332,7 +332,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "04486cfed371103dd51a89205b2c8bcc45ad887c49a768a62465f35810437bef")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
@@ -341,7 +341,7 @@ class NEOTests: XCTestCase {
                 $0.prevHash = Data(hexString: "a5f27055a442db0e65103561900456d37af4233267960daded870c1ab2219ef4")!
                 $0.prevIndex = 0
                 $0.value = 500000000
-                $0.asset_id = NEO_ASSET_ID
+                $0.assetID = NEO_ASSET_ID
             }
             inputTx.inputs.append(input)
         }
