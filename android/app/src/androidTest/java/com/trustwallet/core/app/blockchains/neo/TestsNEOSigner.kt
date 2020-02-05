@@ -354,7 +354,7 @@ class TestNEOSigner {
             .build()
         signerBuilder.addOutputs(output)
 
-        val plan = NEOSigner.sign(signerBuilder.build())
+        val plan = NEOSigner.planTransaction(signerBuilder.build())
         val result = NEOSigner.sign(signerBuilder.build(), plan).encoded.toByteArray()
         val hex = Numeric.toHexString(result, 0, result.size, false)
 
