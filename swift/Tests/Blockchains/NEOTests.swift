@@ -19,7 +19,7 @@ class NEOTests: XCTestCase {
         XCTAssertEqual(address.description, addressFromString?.description)
     }
 
-    func addInput(signingInput: inout NEOSigningInput, hash: String, prevIndex: UInt32, assetID: String, value:  Int64) {
+    func addInput(signingInput: inout NEOSigningInput, hash: String, prevIndex: UInt32, assetID: String, value: Int64) {
         signingInput.inputs.append(NEOTransactionInput.with {
             $0.prevHash = Data(hexString: hash)!
             $0.prevIndex = prevIndex
@@ -79,7 +79,7 @@ class NEOTests: XCTestCase {
         signingInput.gasAssetID = GAS_ASSET_ID
         signingInput.gasChangeAddress = "AdtSLMBqACP4jv8tRWwyweXGpyGG46eMXV"
 
-        prepareInputs(signingInput: &signingInput);
+        prepareInputs(signingInput: &signingInput)
 
         let output = NEOTransactionOutput.with {
             $0.assetID = NEO_ASSET_ID
@@ -89,7 +89,7 @@ class NEOTests: XCTestCase {
         }
         signingInput.outputs.append(output)
 
-        let plan = NEOSigner.planTransaction(input: signingInput);
+        let plan = NEOSigner.planTransaction(input: signingInput)
         let signedTx = NEOSigner.sign(input: signingInput, plan: plan)
         let result = signedTx.encoded.hexString
 
