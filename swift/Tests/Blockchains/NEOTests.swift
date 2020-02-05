@@ -23,12 +23,17 @@ class NEOTests: XCTestCase {
         let NEO_ASSET_ID = "9b7cffdaa674beae0f930ebe6085af9093e5fe56b34a5c220ccdcf6efc336fc5"
         let GAS_ASSET_ID = "e72d286979ee6cb1b7e65dfddfb2e384100b8d148e7758de42e4168b71792c60"
 
-        var inputTx = NEOSigningInput.with {
-            $0.privateKey = Data(hexString: "F18B2F726000E86B4950EBEA7BFF151F69635951BC4A31C44F28EE6AF7AEC128")!
-            $0.fee = 12345
-            $0.gasAssetID = GAS_ASSET_ID
-            $0.gasChangeAddress = "AdtSLMBqACP4jv8tRWwyweXGpyGG46eMXV"
-        }
+//        var inputTx = NEOSigningInput.with {
+//            $0.privateKey = Data(hexString: "F18B2F726000E86B4950EBEA7BFF151F69635951BC4A31C44F28EE6AF7AEC128")!
+//            $0.fee = 12345
+//            $0.gasAssetID = GAS_ASSET_ID
+//            $0.gasChangeAddress = "AdtSLMBqACP4jv8tRWwyweXGpyGG46eMXV"
+//        }
+        var inputTx = NEOSigningInput()
+        inputTx.privateKey = Data(hexString: "F18B2F726000E86B4950EBEA7BFF151F69635951BC4A31C44F28EE6AF7AEC128")!
+        inputTx.fee = 12345
+        inputTx.gasAssetID = GAS_ASSET_ID
+        inputTx.gasChangeAddress = "AdtSLMBqACP4jv8tRWwyweXGpyGG46eMXV"
 
         {
             let input = NEOTransactionInput.with {
