@@ -27,16 +27,16 @@ class TestNEOSigner {
         val signerBuilder = NEO.SigningInput.newBuilder().apply {
             privateKey = "F18B2F726000E86B4950EBEA7BFF151F69635951BC4A31C44F28EE6AF7AEC128".toHexBytesInByteString()
             fee = 12345
-            gas_asset_id = GAS_ASSET_ID
-            gas_change_address = "AdtSLMBqACP4jv8tRWwyweXGpyGG46eMXV"
+            gasAssetId = GAS_ASSET_ID
+            gasChangeAddress = "AdtSLMBqACP4jv8tRWwyweXGpyGG46eMXV"
         }
 
         {
             val input = NEO.TransactionInput.newBuilder()
                     .setPrevHash("c61508268c5d0343af1875c60e569493100824dbdba108b31789e0e33bcb50fb".toHexBytesInByteString())
-                    .setPrevIndex(")
+                    .setPrevIndex(1)
                     .setAssetId(GAS_ASSET_ID)
-                    .setValue(, )
+                    .setValue(98899890000)
                     .build()
             signerBuilder.addInputs(input)
         }
