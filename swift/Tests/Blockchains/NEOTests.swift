@@ -27,7 +27,7 @@ class NEOTests: XCTestCase {
             $0.privateKey = Data(hexString: "F18B2F726000E86B4950EBEA7BFF151F69635951BC4A31C44F28EE6AF7AEC128")!
             $0.fee = 12345!
             $0.gasAssetID = GAS_ASSET_ID!
-            $0.gas_change_address = "AdtSLMBqACP4jv8tRWwyweXGpyGG46eMXV"!
+            $0.gasChangeAddress = "AdtSLMBqACP4jv8tRWwyweXGpyGG46eMXV"!
         }
 
         {
@@ -349,8 +349,8 @@ class NEOTests: XCTestCase {
         let output = NEOTransactionOutput.with {
             $0.assetID = NEO_ASSET_ID
             $0.amount = 25000000000
-            $0.to_address = "Ad9A1xPbuA5YBFr1XPznDwBwQzdckAjCev"
-            $0.change_address = "Ad9A1xPbuA5YBFr1XPznDwBwQzdckAjCev"
+            $0.toAddress = "Ad9A1xPbuA5YBFr1XPznDwBwQzdckAjCev"
+            $0.changeAddress = "Ad9A1xPbuA5YBFr1XPznDwBwQzdckAjCev"
         }
         inputTx.outputs.append(output)
 
