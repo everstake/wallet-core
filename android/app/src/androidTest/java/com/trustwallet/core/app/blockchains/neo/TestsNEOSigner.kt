@@ -348,13 +348,13 @@ class TestNEOSigner {
         }
         val output = NEO.TransactionOutput.newBuilder()
             .setAssetId(NEO_ASSET_ID)
-            .setValue(25000000000)
+            .setAmount(25000000000)
             .setToAddress("Ad9A1xPbuA5YBFr1XPznDwBwQzdckAjCev")
             .setChangeAddress("Ad9A1xPbuA5YBFr1XPznDwBwQzdckAjCev")
             .build()
         signerBuilder.addOutputs(output)
 
-        val plan = NEOSigner.sign(signerBuilder.build()).encoded.toByteArray()
+        val plan = NEOSigner.sign(signerBuilder.build())
         val result = NEOSigner.sign(signerBuilder.build(), plan).encoded.toByteArray()
         val hex = Numeric.toHexString(result, 0, result.size, false)
 
