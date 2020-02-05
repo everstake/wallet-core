@@ -350,7 +350,7 @@ class TestNEOSigner {
             .setAssetId(NEO_ASSET_ID)
             .setAmount(25000000000)
             .setToAddress("Ad9A1xPbuA5YBFr1XPznDwBwQzdckAjCev")
-            .setChangeAddress("Ad9A1xPbuA5YBFr1XPznDwBwQzdckAjCev")
+            .setChangeAddress("AdtSLMBqACP4jv8tRWwyweXGpyGG46eMXV")
             .build()
         signerBuilder.addOutputs(output)
 
