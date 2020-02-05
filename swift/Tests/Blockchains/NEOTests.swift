@@ -25,9 +25,9 @@ class NEOTests: XCTestCase {
 
         var inputTx = NEOSigningInput.with {
             $0.privateKey = Data(hexString: "F18B2F726000E86B4950EBEA7BFF151F69635951BC4A31C44F28EE6AF7AEC128")!
-            $0.fee = 12345!
-            $0.gasAssetID = GAS_ASSET_ID!
-            $0.gasChangeAddress = "AdtSLMBqACP4jv8tRWwyweXGpyGG46eMXV"!
+            $0.fee = 12345
+            $0.gasAssetID = GAS_ASSET_ID
+            $0.gasChangeAddress = "AdtSLMBqACP4jv8tRWwyweXGpyGG46eMXV"
         }
 
         {
